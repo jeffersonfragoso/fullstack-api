@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jefferson.api.domain.Categoria;
+import com.jefferson.api.domain.Cidade;
+import com.jefferson.api.domain.Estado;
 import com.jefferson.api.domain.Produto;
 import com.jefferson.api.repositories.CategoriaRepository;
+import com.jefferson.api.repositories.CidadeRepository;
+import com.jefferson.api.repositories.EstadoRepository;
 import com.jefferson.api.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -19,6 +23,10 @@ public class FullstackApiApplication implements CommandLineRunner{
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
+	@Autowired 
+	private EstadoRepository estadoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(FullstackApiApplication.class, args);
@@ -43,5 +51,18 @@ public class FullstackApiApplication implements CommandLineRunner{
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidade().addAll(Arrays.asList(c1));
+		est2.getCidade().addAll(Arrays.asList(c2,c3));
+		
+		estadoRepository.saveAll(Arrays.asList(est1,est2));
+		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 	}	
 }
